@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, HTTPException, Query, Path
+from fastapi import FastAPI, Depends, HTTPException, Query, Path # type: ignore
 from sqlalchemy.orm import Session
 from typing import List, Optional
 
