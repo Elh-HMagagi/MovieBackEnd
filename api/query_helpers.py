@@ -21,9 +21,25 @@ def get_movies(db: Session, skip: int = 0, limit: int = 100, title: str = None, 
     return query.offset(skip).limit(limit).all()
 
 # --- Évaluations ---
-def get_rating(db: Session, rating_id: int):
-    """Récupère une évaluation par son ID."""
-    return db.query(models.Rating).filter(models.Rating.id == rating_id).first()
+# def get_rating(db: Session, rating_id: int):
+#     """Récupère une évaluation par son ID."""
+#     return db.query(models.Rating).filter(models.Rating.id == rating_id).first()
+
+
+def get_rating(db: Session, user_id: int, movie_id: int):
+    """Récupère une évaluation par utilisateur et film."""
+    return (
+        db.query(models.Rating)
+        .filter(
+            models.Rating.userId == user_id,
+            models.Rating.movieId == movie_id
+        )
+        .first()
+    )
+
+
+
+
 
 def get_ratings(db: Session, skip: int = 0, limit: int = 100, movie_id: int = None, user_id: int = None, min_rating: float = None):
     """Récupère une liste d'évaluations avec filtres optionnels."""
@@ -38,10 +54,33 @@ def get_ratings(db: Session, skip: int = 0, limit: int = 100, movie_id: int = No
     
     return query.offset(skip).limit(limit).all()
 
-# --- Tags ---
-def get_tag(db: Session, tag_id: int):
-    """Récupère un tag par son ID."""
-    return db.query(models.Tag).filter(models.Tag.id == tag_id).first()
+# # --- Tags ---
+# def get_tag(db: Session, tag_id: int):
+#     """Récupère un tag par son ID."""
+#     return db.query(models.Tag).filter(models.Tag.id == tag_id).first()
+
+
+## """"Récupère un tag par son ID.""""
+
+
+
+def get_tag(db: Session, user_id: int, movie_id: int, tag_text:str):
+    """"Récupère un tag par son ID."""""
+    return (
+        db.query(models.Tag)
+        .filter(
+            models.Tag.userId == user_id,
+            models.Tag.movieId == movie_id,
+            models.Tag.tag == tag_text,
+            
+        )
+        .first()
+    )
+
+
+
+
+
 
 def get_tags(db: Session, skip: int = 0, limit: int = 100, movie_id: int = None, user_id: int = None):
     """Récupère une liste de tags avec filtres optionnels."""
